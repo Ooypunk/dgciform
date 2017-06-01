@@ -1,0 +1,6 @@
+{
+	"description": "DgCiForm: Form library, van DG ICT, voor gebruik in CodeIgniter",
+	"require": {
+		"php": ">=5.3.2"
+	}
+}
