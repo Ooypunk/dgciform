@@ -2,12 +2,16 @@
 
 namespace dg\DgCiForm\Elements;
 
+use dg\DgCiForm\Request;
+
 abstract class AbstractFormElement extends AbstractElement {
 
 	protected $type;
 	protected $value;
+	protected $request_value;
 	protected $name;
 	protected $label;
+	protected $rules;
 
 	public function getType() {
 		return $this->type;
@@ -19,6 +23,12 @@ abstract class AbstractFormElement extends AbstractElement {
 	}
 
 	public function getValue() {
+		$request = Request::instance();
+		$this->request_value = $request->getData($this->name);
+
+		if ($this->request_value !== null) {
+			return $this->request_value;
+		}
 		return $this->value;
 	}
 
@@ -45,4 +55,5 @@ abstract class AbstractFormElement extends AbstractElement {
 		return $this;
 	}
 
+	abstract function isValid();
 }

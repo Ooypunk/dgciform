@@ -1,1 +1,1 @@
-<button type="<?= $this->getType() ?>" class="btn btn-default"><?= $this->getLabel() ?></button>
+<button type="<?= $this->getType() ?>" name="<?= $this->getName() ?>" class="btn btn-default"><?= $this->getLabel() ?></button>

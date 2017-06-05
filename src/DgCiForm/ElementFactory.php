@@ -4,6 +4,7 @@ namespace dg\DgCiForm;
 
 use dg\DgCiForm\Elements\FormOpenElement;
 use dg\DgCiForm\Elements\FormCloseElement;
+use dg\DgCiForm\Elements\CsrfElement;
 use dg\DgCiForm\Elements\TextElement;
 use dg\DgCiForm\Elements\PasswordElement;
 use dg\DgCiForm\Elements\SelectElement;
@@ -15,6 +16,7 @@ class ElementFactory {
 
 	const ELEM_FORM_OPEN = 'form_open';
 	const ELEM_FORM_CLOSE = 'form_close';
+	const ELEM_FORM_CSRF = 'form_csrf';
 	const ELEM_TYPE_TEXT = 'text';
 	const ELEM_TYPE_PASSWORD = 'password';
 	const ELEM_TYPE_SELECT = 'select';
@@ -51,6 +53,9 @@ class ElementFactory {
 				break;
 			case self::ELEM_FORM_CLOSE:
 				$this->cache[$elem_type] = new FormCloseElement();
+				break;
+			case self::ELEM_FORM_CSRF:
+				$this->cache[$elem_type] = new CsrfElement();
 				break;
 			case self::ELEM_TYPE_TEXT:
 				$this->cache[$elem_type] = new TextElement;
