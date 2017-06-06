@@ -21,7 +21,7 @@ class SelectElement extends AbstractFormElement {
 	}
 
 	public function isValid() {
-		if (!in_array($this->getValue(), $this->options)) {
+		if (!in_array($this->getValue(), array_keys($this->options))) {
 			return false;
 		}
 
