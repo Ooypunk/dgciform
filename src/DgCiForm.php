@@ -12,6 +12,7 @@ class DgCiForm {
 
 	public $config;
 	public $config_form_key;
+	public $error_messages = [];
 
 	public function __construct($config_key = null) {
 		$this->config_form_key = $config_key;
@@ -102,17 +103,40 @@ class DgCiForm {
 
 	public function isValid() {
 		$is_valid = true;
+		$this->error_messages = [];
 		$elements_container = $this->getFilledElementsContainer();
 		foreach ($elements_container as $elem) {
-			if (!( $elem instanceof AbstractFormElement)) {
+			if (!($elem instanceof AbstractFormElement)) {
 				continue;
 			}
 			if (!$elem->isValid()) {
 				$is_valid = false;
-				break;
+				$this->addErrorMessages($elem->getErrorMessages());
 			}
 		}
 		return $is_valid;
+	}
+
+	public function addErrorMessages(array $error_messages) {
+		foreach ($error_messages as $message) {
+			$this->error_messages[] = $message;
+		}
+	}
+
+	public function getErrorMessages() {
+		return $this->error_messages;
+	}
+
+	public function getData() {
+		$data = [];
+		$elements_container = $this->getFilledElementsContainer();
+		foreach ($elements_container as $elem) {
+			if (!($elem instanceof AbstractFormElement)) {
+				continue;
+			}
+			$data[$elem->getName()] = $elem->getData();
+		}
+		return $data;
 	}
 
 }

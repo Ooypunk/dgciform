@@ -2,30 +2,17 @@
 
 namespace dg\DgCiForm;
 
-use dg\DgCiForm\Elements\FormOpenElement;
-use dg\DgCiForm\Elements\FormCloseElement;
-use dg\DgCiForm\Elements\CsrfElement;
-use dg\DgCiForm\Elements\TextElement;
-use dg\DgCiForm\Elements\PasswordElement;
-use dg\DgCiForm\Elements\SelectElement;
-use dg\DgCiForm\Elements\SubmitElement;
-
-class ElementFactory {
+class FilterFactory {
 
 	private $cache = [];
 
-	const ELEM_FORM_OPEN = 'form_open';
-	const ELEM_FORM_CLOSE = 'form_close';
-	const ELEM_FORM_CSRF = 'form_csrf';
-	const ELEM_TYPE_TEXT = 'text';
-	const ELEM_TYPE_PASSWORD = 'password';
-	const ELEM_TYPE_SELECT = 'select';
-	const ELEM_TYPE_SUBMIT = 'submit';
+	const FILTER_TRIM = 'trim';
+	const FILTER_LIMIT_LENGTH = 'limitLength';
 
 	private function __construct() {
 		/*
-		 * Constructor marked private, so "new ElementFactory" won't work.
-		 * ElementFactory needs to be a Singleton, or else the element caching
+		 * Constructor marked private, so "new FilterFactory" won't work.
+		 * FilterFactory needs to be a Singleton, or else the element caching
 		 * won't work properly.
 		 */
 	}
@@ -33,7 +20,7 @@ class ElementFactory {
 	/**
 	 * Call this method to get singleton
 	 *
-	 * @return ElementFactory
+	 * @return FilterFactory
 	 */
 	public static function instance() {
 		static $inst = null;
@@ -43,36 +30,22 @@ class ElementFactory {
 		return $inst;
 	}
 
-	public function getElem($elem_type, $config) {
+	public function getFilter($elem_type, $config) {
 		if (isset($this->cache[$elem_type])) {
 			return $this->getInstanceFromCache($elem_type, $config);
 		}
 		switch ($elem_type) {
-			case self::ELEM_FORM_OPEN:
-				$this->cache[$elem_type] = new FormOpenElement();
+			case self::FILTER_TRIM:
+				$this->cache[$elem_type] = new Filters\Trim();
 				break;
-			case self::ELEM_FORM_CLOSE:
-				$this->cache[$elem_type] = new FormCloseElement();
-				break;
-			case self::ELEM_FORM_CSRF:
-				$this->cache[$elem_type] = new CsrfElement();
-				break;
-			case self::ELEM_TYPE_TEXT:
-				$this->cache[$elem_type] = new TextElement;
-				break;
-			case self::ELEM_TYPE_PASSWORD:
-				$this->cache[$elem_type] = new PasswordElement;
-				break;
-			case self::ELEM_TYPE_SELECT:
-				$this->cache[$elem_type] = new SelectElement;
-				break;
-			case self::ELEM_TYPE_SUBMIT:
-				$this->cache[$elem_type] = new SubmitElement;
+			case self::FILTER_LIMIT_LENGTH:
+				$this->cache[$elem_type] = new Filters\LimitLength();
 				break;
 			default:
 				print "<pre>";
 				var_dump($elem_type);
 				var_dump($config);
+				print_r(debug_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS));
 				die('@debug in ' . __FILE__ . ' @' . __LINE__ . "\n");
 		}
 		return $this->getInstanceFromCache($elem_type, $config);

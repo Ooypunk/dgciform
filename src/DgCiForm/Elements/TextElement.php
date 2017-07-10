@@ -2,6 +2,8 @@
 
 namespace dg\DgCiForm\Elements;
 
+use dg\DgCiForm\RuleFactory;
+
 class TextElement extends AbstractFormElement {
 
 	protected $config_keys = ['type', 'name', 'label'];
@@ -9,10 +11,13 @@ class TextElement extends AbstractFormElement {
 	public function isValid() {
 		$is_valid = true;
 		if (is_array($this->rules)) {
+			$factory = RuleFactory::instance();
 			foreach ($this->rules as $rule_key => $rule_arguments) {
-				print "<pre>";
-				var_dump($rule_key, $rule_arguments);
-				die('@debug in ' . __FILE__ . ' @' . __LINE__ . "\n");
+				$rule = $factory->getRule($rule_key, $rule_arguments);
+				if (!$rule->isValid($this->getValue())) {
+					$is_valid = false;
+					$this->error_messages[] = $rule->getErrorMessage($this);
+				}
 			}
 		}
 		return $is_valid;
