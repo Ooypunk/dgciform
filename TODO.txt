@@ -1,3 +1,2 @@
-.- attributes that are empty should not be rendered
 .- text-field: add placeholder-attribute
 .- select-field: add placeholder option (i.e. -1 => "Make a choice")
