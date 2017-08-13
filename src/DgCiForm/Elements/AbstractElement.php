@@ -8,6 +8,7 @@ class AbstractElement {
 	protected $id;
 	protected $class;
 	protected $config_keys = [];
+	protected $optional_config_keys = [];
 
 	/*
 	 * Getters/setters
@@ -20,6 +21,12 @@ class AbstractElement {
 			}
 		}
 		foreach ($this->config_keys as $key) {
+			$this->{$key} = $config_array[$key];
+		}
+		foreach ($this->optional_config_keys as $key) {
+			if (!isset($config_array[$key])) {
+				continue;
+			}
 			$this->{$key} = $config_array[$key];
 		}
 	}

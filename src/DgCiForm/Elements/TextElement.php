@@ -7,6 +7,8 @@ use dg\DgCiForm\RuleFactory;
 class TextElement extends AbstractFormElement {
 
 	protected $config_keys = ['type', 'name', 'label'];
+	protected $optional_config_keys = ['placeholder'];
+	protected $placeholder;
 
 	public function isValid() {
 		$is_valid = true;
@@ -21,6 +23,10 @@ class TextElement extends AbstractFormElement {
 			}
 		}
 		return $is_valid;
+	}
+
+	public function getPlaceholder() {
+		return $this->placeholder;
 	}
 
 }

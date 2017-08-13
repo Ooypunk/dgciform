@@ -1,2 +1,1 @@
-.- text-field: add placeholder-attribute
 .- select-field: add placeholder option (i.e. -1 => "Make a choice")
